@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">WordGuess</string>
+    <string name="title_text">Kelime Tahmini</string>
+    <string name="instructions">İpucu Hakkı: %d</string>
+    <string name="word_info">Her harf 10 puan değerindedir</string>
+    <string name="hint_word_info">İpucu aldığınız her harf için puan alamazsınız.</string>
+    <string name="skip">Atla</string>
+    <string name="game_finish">Bitir</string>
+    <string name="submit">Kontrol Et</string>
+    <string name="score">Skor: %d</string>
+    <string name="word_count">%d/10</string>
+    <string name="enter_your_word">Tahminizi Giriniz</string>
+    <string name="congratulations">Tebrikler!</string>
+    <string name="you_scored">"Skorunuz:: %d"</string>
+    <string name="exit">Çık</string>
+    <string name="play_again">Tekrar Oyna</string>
+    <string name="wrong_guess">Tahmin Yanlış!</string>
+    <string name="give_tips">İpucu ver</string>
+    <string name="clue">İpucu</string>
+    <string name="qualifyin">Sıralama</string>
+    <string name="login">Giriş Yap</string>
+    <string name="enter_your_mail">Mail adresini gir</string>
+    <string name="enter_your_password">Parolanı gir</string>
+    <string name="email_or_password_wrong">Email veya parola hatalı</string>
+    <string name="none_accoount_string">Hesabın yok mu?</string>
+    <string name="register_here">Buradan kayıt ol</string>
+    <string name="register">Kayıt Ol</string>
+    <string name="enter_your_username">Kullanıcı adını gir</string>
+    <string name="account_there">Bir hasabın var mı?</string>
+    <string name="login_here">Buradan giriş yap</string>
+    <string name="scores">Skorlar</string>
+
+</resources>
