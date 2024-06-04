@@ -9,7 +9,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.mehmetalan.wordguess.data.fourWords
 import com.mehmetalan.wordguess.data.max_no_of_words
-import com.mehmetalan.wordguess.data.max_hints
 import com.mehmetalan.wordguess.model.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

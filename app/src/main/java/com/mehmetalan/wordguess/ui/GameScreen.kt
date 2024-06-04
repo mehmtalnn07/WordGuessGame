@@ -296,9 +296,16 @@ fun GameLayout(
                 style = typography.titleMedium,
                 color = colorScheme.onPrimary
             )
-            Text(
-                text = timer.toString()
-            )
+            Row (
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.time)
+                )
+                Text(
+                    text = timer.toString()
+                )
+            }
             Text(
                 text = currentScrambledWord,
                 style = typography.displayMedium

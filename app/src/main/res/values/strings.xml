@@ -29,5 +29,6 @@
     <string name="account_there">Bir hasabın var mı?</string>
     <string name="login_here">Buradan giriş yap</string>
     <string name="scores">Skorlar</string>
+    <string name="time">Süre:</string>
 
 </resources>
