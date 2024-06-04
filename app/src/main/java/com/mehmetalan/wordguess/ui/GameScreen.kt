@@ -74,6 +74,7 @@ import com.mehmetalan.wordguess.ui.theme.WordGuessTheme
 import com.mehmetalan.wordguess.viewModels.AuthViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -190,7 +191,12 @@ fun GameScreen(
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
                         Button(
-                            onClick = { gameViewModel.checkUserGuess() },
+                            onClick = {
+                                if (gameViewModel.userGuess.capitalize(Locale.ROOT) == gameViewModel.currentWord) {
+                                    timer = 30
+                                }
+                                gameViewModel.checkUserGuess()
+                                      },
                             enabled = if (isTimerStart) true else false,
                             modifier = Modifier
                                 .bringIntoViewRequester(bringIntoViewRequester)

@@ -77,6 +77,9 @@ class GameViewModel : ViewModel() {
             val hintsUsed = hintWord.count { it != '-' }
             val updatedScore = _uiState.value.score + (currentWord.length * 10) - (hintsUsed * 10)
             updateGameState(updatedScore)
+            _uiState.update { currentState ->
+                currentState.copy(hintCount = 3)
+            }
         } else {
             _uiState.update { currentState ->
                 currentState.copy(isGuessedWordWrong = true)

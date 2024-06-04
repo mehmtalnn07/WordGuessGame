@@ -7,7 +7,7 @@ data class GameUiState(
     val score: Int = 0,
     val isGuessedWordWrong: Boolean = false,
     val isGameOver: Boolean = false,
-    val hintCount: Int = 3,
+    var hintCount: Int = 3,
     var timeInitialCount: Int = 30,
 )
 
