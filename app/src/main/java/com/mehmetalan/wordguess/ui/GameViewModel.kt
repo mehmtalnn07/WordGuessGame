@@ -19,14 +19,12 @@ import kotlinx.coroutines.launch
 
 class GameViewModel : ViewModel() {
 
-    // Game UI state
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
 
     var userGuess by mutableStateOf("")
         private set
 
-    // Set of words used in the game
     private var usedWords: MutableSet<String> = mutableSetOf()
     var currentWord: String = ""
     private lateinit var hintWord: CharArray
@@ -121,7 +119,6 @@ class GameViewModel : ViewModel() {
                     isGameOver = true
                 )
             }
-            // Oyunu bitir ve kullanıcı skorunu güncelle
             updateMaxScoreIfNeeded(updatedScore)
         } else {
             _uiState.update { currentState ->

@@ -34,8 +34,8 @@ val fourWords: Set<String> =
     )
 
 val colorList: List<Color> = listOf(
-    Color(0xFF80DEEA), // Medium Cyan
-    Color(0xFFF48FB1), // Medium Pink
-    Color(0xFFE1BEE7), // Lavender
-    Color(0xFFFFCDD2)  // Light Coral
+    Color(0xFF80DEEA),
+    Color(0xFFF48FB1),
+    Color(0xFFE1BEE7),
+    Color(0xFFFFCDD2)
 )
