@@ -18,6 +18,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -32,7 +33,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,7 +46,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.mehmetalan.wordguess.R
-import com.mehmetalan.wordguess.data.colorList
 import com.mehmetalan.wordguess.model.User
 import com.mehmetalan.wordguess.ui.theme.AudioWide
 import com.mehmetalan.wordguess.ui.theme.WordGuessTheme
@@ -71,7 +70,8 @@ fun RegisterScreen(
                 title = {
                     Text(
                         text = stringResource(id = R.string.register),
-                        fontWeight = FontWeight.ExtraBold
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 navigationIcon = {
@@ -95,7 +95,7 @@ fun RegisterScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(brush = Brush.verticalGradient(colorList))
+                .background(color = MaterialTheme.colorScheme.secondaryContainer)
         ) {
             Column (
                 modifier = Modifier
@@ -114,7 +114,8 @@ fun RegisterScreen(
                         onValueChange = { userName = it },
                         label = {
                             Text(
-                                text = stringResource(id = R.string.enter_your_username)
+                                text = stringResource(id = R.string.enter_your_username),
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         },
                         keyboardOptions = KeyboardOptions.Default.copy(
@@ -130,7 +131,8 @@ fun RegisterScreen(
                         onValueChange = { email = it },
                         label = {
                             Text(
-                                text = stringResource(id = R.string.enter_your_mail)
+                                text = stringResource(id = R.string.enter_your_mail),
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         },
                         keyboardOptions = KeyboardOptions.Default.copy(
@@ -146,7 +148,8 @@ fun RegisterScreen(
                         onValueChange = { password = it },
                         label = {
                             Text(
-                                text = stringResource(id = R.string.enter_your_password)
+                                text = stringResource(id = R.string.enter_your_password),
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         },
                         keyboardOptions = KeyboardOptions.Default.copy(
@@ -182,7 +185,19 @@ fun RegisterScreen(
                                         userName = userName,
                                         userEmail = email,
                                         userPassword = password,
-                                        userMaximumScore = "0"
+                                        userMaximumScore = "0",
+                                        fourEasyPoints = "0",
+                                        fourMediumPoints = "0",
+                                        fourHardPoints = "0",
+                                        fiveEasyPoints = "0",
+                                        fiveMediumPoints = "0",
+                                        fiveHardPoints = "0",
+                                        sixEasyPoints = "0",
+                                        sixMediumPoints = "0",
+                                        sixHardPoints = "0",
+                                        sevenEasyPoints = "0",
+                                        sevenMediumPoints = "0",
+                                        sevenHardPoints = "0"
                                     ),
                                     onSuccess = {
                                         navController.navigate(route = "login")
@@ -197,14 +212,16 @@ fun RegisterScreen(
                         Text(
                             text = stringResource(id = R.string.register),
                             fontWeight = FontWeight.ExtraBold,
-                            fontFamily = AudioWide
+                            fontFamily = AudioWide,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Row (
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = stringResource(id = R.string.account_there)
+                            text = stringResource(id = R.string.account_there),
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                         TextButton(
                             onClick = {
@@ -213,7 +230,8 @@ fun RegisterScreen(
                         ) {
                             Text(
                                 text = stringResource(id = R.string.login_here),
-                                fontWeight = FontWeight.ExtraBold
+                                fontWeight = FontWeight.ExtraBold,
+                                color = Color.Magenta
                             )
                         }
                     }

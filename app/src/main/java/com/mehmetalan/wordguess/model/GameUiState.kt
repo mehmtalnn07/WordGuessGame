@@ -1,4 +1,4 @@
-package com.mehmetalan.wordguess.ui
+package com.mehmetalan.wordguess.model
 
 data class GameUiState(
     val currentScrambledWord: String = "",
@@ -9,5 +9,6 @@ data class GameUiState(
     val isGameOver: Boolean = false,
     var hintCount: Int = 3,
     var timeInitialCount: Int = 30,
+    var selectedCategoryId: Int = 1,
+    var selectedLevelId: Int = 1
 )
-

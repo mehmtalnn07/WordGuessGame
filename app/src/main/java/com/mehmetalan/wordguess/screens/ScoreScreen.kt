@@ -1,5 +1,6 @@
 package com.mehmetalan.wordguess.screens
 
+import GameViewModel
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -39,20 +40,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.mehmetalan.wordguess.R
 import com.mehmetalan.wordguess.common.PodiumColor
-import com.mehmetalan.wordguess.ui.GameViewModel
+import com.mehmetalan.wordguess.common.determinePodiumColor
 import com.mehmetalan.wordguess.ui.theme.AudioWide
-
-
-
-@Composable
-fun determinePodiumColor(rank: Int): PodiumColor {
-    return when (rank) {
-        1 -> PodiumColor.GOLD
-        2 -> PodiumColor.SILVER
-        3 -> PodiumColor.BRONZE
-        else -> PodiumColor.OTHER
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -74,6 +63,7 @@ fun ScoreScreen(
                     Text(
                         text = stringResource(id = R.string.scores),
                         fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.onBackground,
                         style = TextStyle(
                             fontFamily = AudioWide,
                             fontSize = 30.sp
@@ -167,14 +157,16 @@ fun UserCard(
                     text = userName,
                     style = TextStyle(
                         fontFamily = AudioWide
-                    )
+                    ),
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
             Text(
                 text = userScore,
                 style = TextStyle(
                     fontFamily = AudioWide
-                )
+                ),
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }

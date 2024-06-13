@@ -32,7 +32,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,7 +45,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.mehmetalan.wordguess.R
-import com.mehmetalan.wordguess.data.colorList
 import com.mehmetalan.wordguess.ui.theme.AudioWide
 import com.mehmetalan.wordguess.ui.theme.WordGuessTheme
 import com.mehmetalan.wordguess.viewModels.AuthViewModel
@@ -73,7 +71,8 @@ fun LoginScreen(
                 title = {
                     Text(
                         text = stringResource(id = R.string.login),
-                        fontWeight = FontWeight.ExtraBold
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -85,9 +84,7 @@ fun LoginScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    brush = Brush.verticalGradient(colorList)
-                )
+                .background(color = MaterialTheme.colorScheme.secondaryContainer)
         ) {
             Column (
                 modifier = Modifier
@@ -106,7 +103,8 @@ fun LoginScreen(
                         onValueChange = { email = it },
                         label = {
                             Text(
-                                text = stringResource(id = R.string.enter_your_mail)
+                                text = stringResource(id = R.string.enter_your_mail),
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         },
                         keyboardOptions = KeyboardOptions.Default.copy(
@@ -122,7 +120,8 @@ fun LoginScreen(
                         onValueChange = { password = it },
                         label = {
                             Text(
-                                text = stringResource(id = R.string.enter_your_password)
+                                text = stringResource(id = R.string.enter_your_password),
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         },
                         keyboardOptions = KeyboardOptions.Default.copy(
@@ -175,14 +174,16 @@ fun LoginScreen(
                         Text(
                             text = stringResource(id = R.string.login),
                             fontWeight = FontWeight.ExtraBold,
-                            fontFamily = AudioWide
+                            fontFamily = AudioWide,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Row (
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = stringResource(id = R.string.none_accoount_string)
+                            text = stringResource(id = R.string.none_accoount_string),
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                         TextButton(
                             onClick = {
@@ -191,7 +192,8 @@ fun LoginScreen(
                         ) {
                             Text(
                                 text = stringResource(id = R.string.register_here),
-                                fontWeight = FontWeight.ExtraBold
+                                fontWeight = FontWeight.ExtraBold,
+                                color = Color.Magenta
                             )
                         }
                     }

@@ -1,5 +1,6 @@
-package com.mehmetalan.wordguess.ui
+package com.mehmetalan.wordguess.screens
 
+import GameViewModel
 import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -18,19 +19,18 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Output
+import androidx.compose.material.icons.outlined.Logout
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.MaterialTheme.typography
@@ -53,24 +53,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusEvent
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.mehmetalan.wordguess.R
-import com.mehmetalan.wordguess.data.colorList
-import com.mehmetalan.wordguess.ui.theme.AudioWide
-import com.mehmetalan.wordguess.ui.theme.WordGuessTheme
+import com.mehmetalan.wordguess.model.GameUiState
 import com.mehmetalan.wordguess.viewModels.AuthViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -81,7 +75,9 @@ import java.util.Locale
 @Composable
 fun GameScreen(
     navController: NavHostController,
-    gameViewModel: GameViewModel = viewModel(),
+    gameViewModel: GameViewModel,
+    categoryId: Int,
+    levelId: Int
 ) {
     val gameUiState by gameViewModel.uiState.collectAsState()
     val mediumPadding = dimensionResource(R.dimen.padding_medium)
@@ -91,8 +87,6 @@ fun GameScreen(
     var isTimerStart by remember { mutableStateOf(true) }
     val bringIntoViewRequester = BringIntoViewRequester()
 
-
-
     LaunchedEffect(key1 = timer, key2 = isTimerStart) {
         if (isTimerStart && timer > 0) {
             delay(1000)
@@ -101,7 +95,6 @@ fun GameScreen(
             isTimerStart = false
         }
     }
-
 
     Scaffold (
         topBar = {
@@ -127,32 +120,19 @@ fun GameScreen(
                         }
                     ) {
                         Icon(
-                            Icons.Outlined.Output,
+                            Icons.Outlined.Logout,
                             contentDescription = "Logout Button",
                             tint = Color.Red
                         )
                     }
                 },
-                actions = {
-                    TextButton(
-                        onClick = {
-                            navController.navigate(route = "rank")
-                        }
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.qualifyin),
-                            fontWeight = FontWeight.ExtraBold,
-                            fontFamily = AudioWide
-                        )
-                    }
-                }
             )
         }
     ) {innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(brush = Brush.verticalGradient(colorList))
+                .background(color = MaterialTheme.colorScheme.secondaryContainer)
         ) {
             Column (
                 modifier = Modifier
@@ -190,31 +170,39 @@ fun GameScreen(
                             .padding(mediumPadding),
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
-                        Button(
+                        OutlinedButton(
                             onClick = {
                                 if (gameViewModel.userGuess.capitalize(Locale.ROOT) == gameViewModel.currentWord) {
                                     timer = 30
                                 }
                                 gameViewModel.checkUserGuess()
-                                      },
+                            },
                             enabled = if (isTimerStart) true else false,
                             modifier = Modifier
-                                .bringIntoViewRequester(bringIntoViewRequester)
+                                .bringIntoViewRequester(bringIntoViewRequester),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.background
+                            )
                         ) {
                             Text(
                                 text = stringResource(R.string.submit),
-                                fontSize = 16.sp
+                                fontSize = 16.sp,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
-                        Button(
+                        OutlinedButton(
                             onClick = { gameViewModel.revealHint() },
                             enabled = gameUiState.hintCount != 0 && timer != 0,
                             modifier = Modifier
-                                .bringIntoViewRequester(bringIntoViewRequester)
+                                .bringIntoViewRequester(bringIntoViewRequester),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.background
+                            )
                         ) {
                             Text(
                                 text = stringResource(id = R.string.give_tips),
-                                fontSize = 16.sp
+                                fontSize = 16.sp,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                         OutlinedButton(
@@ -224,13 +212,18 @@ fun GameScreen(
                                 isTimerStart = true
                             },
                             modifier = Modifier
-                                .bringIntoViewRequester(bringIntoViewRequester)
+                                .bringIntoViewRequester(bringIntoViewRequester),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.background,
+
+                                )
                         ) {
                             Text(
                                 text = if (gameUiState.currentWordCount != 10) {
                                     stringResource(id = R.string.skip)} else {
                                     stringResource(id = R.string.game_finish)},
-                                fontSize = 16.sp
+                                fontSize = 16.sp,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }
@@ -238,7 +231,10 @@ fun GameScreen(
                     if (gameUiState.isGameOver) {
                         FinalScoreDialog(
                             score = gameUiState.score,
-                            onPlayAgain = { gameViewModel.resetGame() }
+                            onPlayAgain = {
+                                gameViewModel.resetGame()
+                                navController.navigate(route = "home")
+                            }
                         )
                     }
                 }
@@ -250,12 +246,16 @@ fun GameScreen(
 @Composable
 fun GameStatus(score: Int, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier
+        modifier = modifier,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.background
+        )
     ) {
         Text(
             text = stringResource(R.string.score, score),
             style = typography.headlineMedium,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }
@@ -281,11 +281,13 @@ fun GameLayout(
     val bringIntoViewRequester = BringIntoViewRequester()
     val coroutineScope = rememberCoroutineScope()
 
+    val timerColor = if (timer <= 10) Color.Red else MaterialTheme.colorScheme.onBackground
+
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (isGuessWrong) colorScheme.error else Color(0xFF4EE1BE)
+            containerColor = if (isGuessWrong) colorScheme.error else MaterialTheme.colorScheme.background
         )
     ) {
         Column(
@@ -296,25 +298,28 @@ fun GameLayout(
             Text(
                 modifier = Modifier
                     .clip(shapes.medium)
-                    .background(colorScheme.surfaceTint)
+                    .background(colorScheme.background)
                     .padding(horizontal = 10.dp, vertical = 4.dp),
                 text = stringResource(R.string.word_count, wordCount),
                 style = typography.titleMedium,
-                color = colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onBackground
             )
             Row (
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 Text(
-                    text = stringResource(id = R.string.time)
+                    text = stringResource(id = R.string.time),
+                    color = timerColor
                 )
                 Text(
-                    text = timer.toString()
+                    text = timer.toString(),
+                    color = timerColor
                 )
             }
             Text(
                 text = currentScrambledWord,
-                style = typography.displayMedium
+                style = typography.displayMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -324,28 +329,33 @@ fun GameLayout(
                     text = if (timer == 0) {"Doğru Cevap: ${gameViewModel.currentWord}"} else {
                         stringResource(id = R.string.clue) + ":"},
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.ExtraBold
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = if(timer == 0) {""} else {hintDashes},
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.ExtraBold
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
             Text(
                 text = stringResource(R.string.instructions, gameUiState.hintCount),
                 textAlign = TextAlign.Center,
-                style = typography.titleMedium
+                style = typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 text = stringResource(id = R.string.word_info),
                 textAlign = TextAlign.Center,
-                style = typography.titleMedium
+                style = typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 text = stringResource(id = R.string.hint_word_info),
                 textAlign = TextAlign.Center,
-                style = typography.titleMedium
+                style = typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
             OutlinedTextField(
                 value = userGuess,
@@ -368,18 +378,12 @@ fun GameLayout(
                 onValueChange = onUserGuessChanged,
                 label = {
                     if (isGuessWrong) {
-                        Text(stringResource(R.string.wrong_guess))
+                        Text(stringResource(R.string.wrong_guess), color = MaterialTheme.colorScheme.onBackground)
                     } else {
-                        Text(stringResource(R.string.enter_your_word))
+                        Text(stringResource(R.string.enter_your_word), color = MaterialTheme.colorScheme.onBackground)
                     }
                 },
                 isError = isGuessWrong,
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = { onKeyboardDone() }
-                )
             )
         }
     }
@@ -389,14 +393,14 @@ fun GameLayout(
 private fun FinalScoreDialog(
     score: Int,
     onPlayAgain: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val activity = (LocalContext.current as Activity)
 
     AlertDialog(
         onDismissRequest = {},
-        title = { Text(text = stringResource(R.string.congratulations)) },
-        text = { Text(text = stringResource(R.string.you_scored, score)) },
+        title = { Text(text = stringResource(R.string.congratulations), color = MaterialTheme.colorScheme.onBackground) },
+        text = { Text(text = stringResource(R.string.you_scored, score), color = MaterialTheme.colorScheme.onBackground) },
         modifier = modifier,
         dismissButton = {
             TextButton(
@@ -404,23 +408,13 @@ private fun FinalScoreDialog(
                     activity.finish()
                 }
             ) {
-                Text(text = stringResource(R.string.exit))
+                Text(text = stringResource(R.string.exit), color = MaterialTheme.colorScheme.onBackground)
             }
         },
         confirmButton = {
             TextButton(onClick = onPlayAgain) {
-                Text(text = stringResource(R.string.play_again))
+                Text(text = stringResource(R.string.play_again), color = MaterialTheme.colorScheme.onBackground)
             }
         }
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GameScreenPreview() {
-    WordGuessTheme {
-        GameScreen(
-            navController = rememberNavController()
-        )
-    }
 }

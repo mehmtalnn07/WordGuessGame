@@ -30,5 +30,6 @@
     <string name="login_here">Buradan giriş yap</string>
     <string name="scores">Skorlar</string>
     <string name="time">Süre:</string>
+    <string name="change_category">Kategori seç</string>
 
 </resources>

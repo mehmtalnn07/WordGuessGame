@@ -1,7 +1,7 @@
 [versions]
 accompanistInsets = "0.20.3"
 accompanistSystemuicontroller = "0.35.1-alpha"
-agp = "8.4.1"
+agp = "8.4.2"
 firebaseBom = "33.1.0"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
